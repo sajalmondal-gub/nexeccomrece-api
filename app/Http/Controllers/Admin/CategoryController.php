@@ -37,6 +37,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'name_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|unique:categories,slug',
             'parent_id' => 'nullable|exists:categories,id',
             'icon' => 'nullable|string|max:50',
@@ -46,6 +47,7 @@ class CategoryController extends Controller
 
         Category::create([
             'name' => $request->name,
+            'name_bn' => $request->name_bn,
             'slug' => $slug,
             'parent_id' => $request->parent_id,
             'icon' => $request->icon ?? 'tag',
@@ -74,6 +76,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'name_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|unique:brands,slug',
             'logo' => 'nullable|string|max:255',
         ]);
@@ -82,6 +85,7 @@ class CategoryController extends Controller
 
         Brand::create([
             'name' => $request->name,
+            'name_bn' => $request->name_bn,
             'slug' => $slug,
             'logo' => $request->logo ?? 'default_logo.png',
             'is_active' => $request->has('is_active'),

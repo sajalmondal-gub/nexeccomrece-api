@@ -19,26 +19,41 @@
                         Product Fundamentals
                     </h3>
                     
-                    <div class="space-y-4">
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
                                 <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Product Title *</label>
                                 <input type="text" name="name" required value="{{ old('name', $product->name) }}" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">URL Slug *</label>
-                                <input type="text" name="slug" required value="{{ old('slug', $product->slug) }}" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Product Title (Bangla)</label>
+                                <input type="text" name="name_bn" value="{{ old('name_bn', $product->name_bn) }}" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Short Summary *</label>
-                            <input type="text" name="short_description" required value="{{ old('short_description', $product->short_description) }}" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">URL Slug *</label>
+                            <input type="text" name="slug" required value="{{ old('slug', $product->slug) }}" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Short Summary *</label>
+                                <input type="text" name="short_description" required value="{{ old('short_description', $product->short_description) }}" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Short Summary (Bangla)</label>
+                                <input type="text" name="short_description_bn" value="{{ old('short_description_bn', $product->short_description_bn) }}" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                            </div>
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Detailed Description *</label>
                             <textarea name="description" rows="6" required class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">{{ old('description', $product->description) }}</textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Detailed Description (Bangla)</label>
+                            <textarea name="description_bn" rows="6" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">{{ old('description_bn', $product->description_bn) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -65,13 +80,23 @@
                         <!-- Existing Variants will be loaded here -->
                         @foreach($product->variants as $index => $variant)
                             <div id="variant-row-{{ $index }}" class="grid grid-cols-1 sm:grid-cols-5 gap-3 p-3.5 bg-slate-950/60 rounded-xl border border-indigo-950/40 relative group items-center">
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Attr * (e.g. Size)</label>
-                                    <input type="text" name="variants[{{ $index }}][attribute_name]" required value="{{ $variant->attribute_name }}" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Val * (e.g. XL)</label>
-                                    <input type="text" name="variants[{{ $index }}][attribute_value]" required value="{{ $variant->attribute_value }}" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                                <div class="col-span-1 sm:col-span-5 grid grid-cols-2 gap-3 mb-2">
+                                    <div>
+                                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Attr * (e.g. Size)</label>
+                                        <input type="text" name="variants[{{ $index }}][attribute_name]" required value="{{ $variant->attribute_name }}" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Attr Bangla</label>
+                                        <input type="text" name="variants[{{ $index }}][attribute_name_bn]" value="{{ $variant->attribute_name_bn }}" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Val * (e.g. XL)</label>
+                                        <input type="text" name="variants[{{ $index }}][attribute_value]" required value="{{ $variant->attribute_value }}" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Val Bangla</label>
+                                        <input type="text" name="variants[{{ $index }}][attribute_value_bn]" value="{{ $variant->attribute_value_bn }}" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
+                                    </div>
                                 </div>
                                 <div>
                                     <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Modifier ($)</label>
@@ -81,7 +106,7 @@
                                     <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Stock *</label>
                                     <input type="number" name="variants[{{ $index }}][stock_qty]" required value="{{ $variant->stock_qty }}" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
                                 </div>
-                                <div class="flex items-center justify-between pt-4 sm:pt-0">
+                                <div class="flex items-center justify-between pt-4 sm:pt-0 sm:col-span-3">
                                     <div class="flex-1 mr-2">
                                         <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Custom SKU</label>
                                         <input type="text" name="variants[{{ $index }}][sku]" value="{{ $variant->sku }}" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
@@ -279,13 +304,23 @@
             row.className = "grid grid-cols-1 sm:grid-cols-5 gap-3 p-3.5 bg-slate-950/60 rounded-xl border border-indigo-950/40 relative group items-center";
             
             row.innerHTML = `
-                <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Attr * (e.g. Size)</label>
-                    <input type="text" name="variants[${variantIndex}][attribute_name]" required class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="Color">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Val * (e.g. XL)</label>
-                    <input type="text" name="variants[${variantIndex}][attribute_value]" required class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="Royal Purple">
+                <div class="col-span-1 sm:col-span-5 grid grid-cols-2 gap-3 mb-2">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Attr * (e.g. Size)</label>
+                        <input type="text" name="variants[${variantIndex}][attribute_name]" required class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="Color">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Attr Bangla</label>
+                        <input type="text" name="variants[${variantIndex}][attribute_name_bn]" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="রঙ">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Val * (e.g. XL)</label>
+                        <input type="text" name="variants[${variantIndex}][attribute_value]" required class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="Royal Purple">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Val Bangla</label>
+                        <input type="text" name="variants[${variantIndex}][attribute_value_bn]" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="রয়েল পার্পল">
+                    </div>
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Modifier ($)</label>
@@ -295,7 +330,7 @@
                     <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Stock *</label>
                     <input type="number" name="variants[${variantIndex}][stock_qty]" required class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="10">
                 </div>
-                <div class="flex items-center justify-between pt-4 sm:pt-0">
+                <div class="flex items-center justify-between pt-4 sm:pt-0 sm:col-span-3">
                     <div class="flex-1 mr-2">
                         <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Custom SKU</label>
                         <input type="text" name="variants[${variantIndex}][sku]" class="w-full rounded-lg border border-indigo-950/60 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="Optional">

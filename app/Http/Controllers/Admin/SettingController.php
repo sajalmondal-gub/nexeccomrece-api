@@ -41,12 +41,17 @@ class SettingController extends Controller
 
         $request->validate([
             'site_name' => 'required|string|max:50',
+            'site_name_bn' => 'nullable|string|max:50',
             'site_tagline' => 'nullable|string|max:100',
+            'site_tagline_bn' => 'nullable|string|max:100',
             'support_email' => 'required|email|max:100',
             'contact_phone' => 'nullable|string|max:30',
             'support_address' => 'nullable|string|max:250',
+            'support_address_bn' => 'nullable|string|max:250',
             'copyright_text' => 'nullable|string|max:100',
+            'copyright_text_bn' => 'nullable|string|max:100',
             'meta_description' => 'nullable|string|max:500',
+            'meta_description_bn' => 'nullable|string|max:500',
             'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'site_favicon' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico,svg,webp|max:1024',
         ]);

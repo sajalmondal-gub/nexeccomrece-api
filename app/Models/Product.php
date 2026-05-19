@@ -6,16 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\TranslatableTrait;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, TranslatableTrait;
 
     protected $fillable = [
         'name',
+        'name_bn',
         'slug',
         'description',
+        'description_bn',
         'short_description',
+        'short_description_bn',
         'brand_id',
         'category_id',
         'base_price',
@@ -85,5 +89,20 @@ class Product extends Model
     public function getFinalPriceAttribute(): float
     {
         return (float) ($this->sale_price ?? $this->base_price);
+    }
+
+    public function getNameAttribute($value)
+    {
+        return $this->getTranslatedAttribute('name', $value);
+    }
+
+    public function getDescriptionAttribute($value)
+    {
+        return $this->getTranslatedAttribute('description', $value);
+    }
+
+    public function getShortDescriptionAttribute($value)
+    {
+        return $this->getTranslatedAttribute('short_description', $value);
     }
 }

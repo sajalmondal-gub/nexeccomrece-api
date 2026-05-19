@@ -33,11 +33,19 @@
             </div>
 
             <!-- Title -->
-            <div>
-                <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Banner Title (Optional)</label>
-                <input type="text" name="title" id="title" value="{{ old('title', $banner->title) }}" placeholder="Summer Sale 2026"
-                    class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all">
-                @error('title') <p class="mt-1.5 text-xs text-red-400">{{ $message }}</p> @enderror
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Banner Title (Optional)</label>
+                    <input type="text" name="title" id="title" value="{{ old('title', $banner->title) }}" placeholder="Summer Sale 2026"
+                        class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all">
+                    @error('title') <p class="mt-1.5 text-xs text-red-400">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label for="title_bn" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Banner Title Bangla (Optional)</label>
+                    <input type="text" name="title_bn" id="title_bn" value="{{ old('title_bn', $banner->title_bn) }}" placeholder="গ্রীষ্মকালীন অফার ২০২৬"
+                        class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all">
+                    @error('title_bn') <p class="mt-1.5 text-xs text-red-400">{{ $message }}</p> @enderror
+                </div>
             </div>
 
             <!-- Link -->

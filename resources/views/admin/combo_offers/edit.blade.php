@@ -27,14 +27,24 @@
                                 <input type="text" name="name" value="{{ $comboOffer->name }}" required class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="e.g. Gamer Starter Pack">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">URL Slug *</label>
-                                <input type="text" name="slug" value="{{ $comboOffer->slug }}" required class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="e.g. gamer-starter-pack">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Combo Bundle Name (Bangla)</label>
+                                <input type="text" name="name_bn" value="{{ $comboOffer->name_bn }}" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="e.g. গেমার স্টার্টার প্যাক">
                             </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">URL Slug *</label>
+                            <input type="text" name="slug" value="{{ $comboOffer->slug }}" required class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="e.g. gamer-starter-pack">
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Package Description</label>
                             <textarea name="description" rows="4" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="Describe what's included...">{{ $comboOffer->description }}</textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Package Description (Bangla)</label>
+                            <textarea name="description_bn" rows="4" class="w-full rounded-xl border border-indigo-950/50 bg-slate-950 px-4 py-2.5 text-sm text-slate-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500" placeholder="প্যাকেজের বিবরণ বাংলায় লিখুন...">{{ $comboOffer->description_bn }}</textarea>
                         </div>
                     </div>
                 </div>

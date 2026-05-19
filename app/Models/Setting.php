@@ -13,6 +13,12 @@ class Setting extends Model
      */
     public static function get(string $key, $default = null)
     {
+        if (app()->getLocale() === 'bn') {
+            $setting = self::where('key', $key . '_bn')->first();
+            if ($setting && !empty($setting->value)) {
+                return $setting->value;
+            }
+        }
         $setting = self::where('key', $key)->first();
         return $setting ? $setting->value : $default;
     }

@@ -58,9 +58,12 @@ class ProductController extends Controller
         $this->checkPermission();
         $request->validate([
             'name' => 'required|string|max:255',
+            'name_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|unique:products,slug',
             'description' => 'required|string',
+            'description_bn' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
+            'short_description_bn' => 'nullable|string|max:255',
             'base_price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0|lt:base_price',
             'stock_qty' => 'required|integer|min:0',
@@ -97,9 +100,12 @@ class ProductController extends Controller
         DB::transaction(function () use ($request, $slug, $storedImages, $primaryImage) {
             $product = Product::create([
                 'name' => $request->name,
+                'name_bn' => $request->name_bn,
                 'slug' => $slug,
                 'description' => $request->description,
+                'description_bn' => $request->description_bn,
                 'short_description' => $request->short_description,
+                'short_description_bn' => $request->short_description_bn,
                 'base_price' => $request->base_price,
                 'sale_price' => $request->sale_price,
                 'stock_qty' => $request->stock_qty,
@@ -121,7 +127,9 @@ class ProductController extends Controller
                         ProductVariant::create([
                             'product_id' => $product->id,
                             'attribute_name' => $variantData['attribute_name'],
+                            'attribute_name_bn' => $variantData['attribute_name_bn'] ?? null,
                             'attribute_value' => $variantData['attribute_value'],
+                            'attribute_value_bn' => $variantData['attribute_value_bn'] ?? null,
                             'price_modifier' => $variantData['price_modifier'] ?? 0.00,
                             'stock_qty' => $variantData['stock_qty'] ?? 0,
                             'sku' => $variantData['sku'] ?? $product->sku . '-' . strtoupper(substr($variantData['attribute_value'], 0, 3)),
@@ -157,9 +165,12 @@ class ProductController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'name_bn' => 'nullable|string|max:255',
             'slug' => "required|string|unique:products,slug,{$product->id}",
             'description' => 'required|string',
+            'description_bn' => 'nullable|string',
             'short_description' => 'nullable|string|max:255',
+            'short_description_bn' => 'nullable|string|max:255',
             'base_price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0|lt:base_price',
             'stock_qty' => 'required|integer|min:0',
@@ -233,9 +244,12 @@ class ProductController extends Controller
         DB::transaction(function () use ($request, $product, $mergedImages, $primaryImage) {
             $product->update([
                 'name' => $request->name,
+                'name_bn' => $request->name_bn,
                 'slug' => Str::slug($request->slug),
                 'description' => $request->description,
+                'description_bn' => $request->description_bn,
                 'short_description' => $request->short_description,
+                'short_description_bn' => $request->short_description_bn,
                 'base_price' => $request->base_price,
                 'sale_price' => $request->sale_price,
                 'stock_qty' => $request->stock_qty,
@@ -259,7 +273,9 @@ class ProductController extends Controller
                         ProductVariant::create([
                             'product_id' => $product->id,
                             'attribute_name' => $variantData['attribute_name'],
+                            'attribute_name_bn' => $variantData['attribute_name_bn'] ?? null,
                             'attribute_value' => $variantData['attribute_value'],
+                            'attribute_value_bn' => $variantData['attribute_value_bn'] ?? null,
                             'price_modifier' => $variantData['price_modifier'] ?? 0.00,
                             'stock_qty' => $variantData['stock_qty'] ?? 0,
                             'sku' => $variantData['sku'] ?? $product->sku . '-' . strtoupper(substr($variantData['attribute_value'], 0, 3)),

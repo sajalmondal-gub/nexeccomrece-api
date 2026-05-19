@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\TranslatableTrait;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, TranslatableTrait;
 
     protected $fillable = [
         'name',
+        'name_bn',
         'slug',
         'parent_id',
         'icon',
@@ -46,5 +48,10 @@ class Category extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function getNameAttribute($value)
+    {
+        return $this->getTranslatedAttribute('name', $value);
     }
 }

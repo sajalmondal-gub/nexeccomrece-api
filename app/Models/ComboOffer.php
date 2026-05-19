@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\TranslatableTrait;
 
 class ComboOffer extends Model
 {
-    use HasFactory;
+    use HasFactory, TranslatableTrait;
 
     protected $fillable = [
         'name',
+        'name_bn',
         'slug',
         'description',
+        'description_bn',
         'price',
         'image',
         'is_active',
@@ -50,5 +53,15 @@ class ComboOffer extends Model
     public function getSavingsAmountAttribute(): float
     {
         return max(0, $this->original_price - (float) $this->price);
+    }
+
+    public function getNameAttribute($value)
+    {
+        return $this->getTranslatedAttribute('name', $value);
+    }
+
+    public function getDescriptionAttribute($value)
+    {
+        return $this->getTranslatedAttribute('description', $value);
     }
 }

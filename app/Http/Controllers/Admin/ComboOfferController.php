@@ -54,8 +54,10 @@ class ComboOfferController extends Controller
         $this->checkPermission();
         $request->validate([
             'name' => 'required|string|max:255',
+            'name_bn' => 'nullable|string|max:255',
             'slug' => 'nullable|string|unique:combo_offers,slug',
             'description' => 'nullable|string',
+            'description_bn' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'products' => 'required|array|min:2',
@@ -76,8 +78,10 @@ class ComboOfferController extends Controller
         DB::transaction(function () use ($request, $slug, $imagePath) {
             $combo = ComboOffer::create([
                 'name' => $request->name,
+                'name_bn' => $request->name_bn,
                 'slug' => $slug,
                 'description' => $request->description,
+                'description_bn' => $request->description_bn,
                 'price' => $request->price,
                 'image' => $imagePath ?? 'uploads/combos/default_combo.png',
                 'is_active' => $request->has('is_active'),
@@ -114,8 +118,10 @@ class ComboOfferController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'name_bn' => 'nullable|string|max:255',
             'slug' => "required|string|unique:combo_offers,slug,{$combo->id}",
             'description' => 'nullable|string',
+            'description_bn' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'products' => 'required|array|min:2',
@@ -142,8 +148,10 @@ class ComboOfferController extends Controller
         DB::transaction(function () use ($request, $combo, $imagePath) {
             $combo->update([
                 'name' => $request->name,
+                'name_bn' => $request->name_bn,
                 'slug' => Str::slug($request->slug),
                 'description' => $request->description,
+                'description_bn' => $request->description_bn,
                 'price' => $request->price,
                 'image' => $imagePath,
                 'is_active' => $request->has('is_active'),

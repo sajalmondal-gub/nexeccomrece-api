@@ -35,10 +35,24 @@
                         @enderror
                     </div>
 
+                    <!-- Site Name Bangla -->
+                    <div>
+                        <label for="site_name_bn" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Site Title (Bangla)</label>
+                        <input type="text" name="site_name_bn" id="site_name_bn" value="{{ old('site_name_bn', $settings['site_name_bn'] ?? '') }}"
+                            class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium">
+                    </div>
+
                     <!-- Tagline -->
                     <div>
                         <label for="site_tagline" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Brand Tagline</label>
                         <input type="text" name="site_tagline" id="site_tagline" value="{{ old('site_tagline', $settings['site_tagline']) }}"
+                            class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium">
+                    </div>
+
+                    <!-- Tagline Bangla -->
+                    <div>
+                        <label for="site_tagline_bn" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Brand Tagline (Bangla)</label>
+                        <input type="text" name="site_tagline_bn" id="site_tagline_bn" value="{{ old('site_tagline_bn', $settings['site_tagline_bn'] ?? '') }}"
                             class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium">
                     </div>
                 </div>
@@ -112,10 +126,17 @@
                 </div>
 
                 <!-- Support Address -->
-                <div class="mt-6">
-                    <label for="support_address" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Office / warehouse Address</label>
-                    <textarea name="support_address" id="support_address" rows="3"
-                        class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium resize-none">{{ old('support_address', $settings['support_address']) }}</textarea>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="support_address" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Office / warehouse Address</label>
+                        <textarea name="support_address" id="support_address" rows="3"
+                            class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium resize-none">{{ old('support_address', $settings['support_address']) }}</textarea>
+                    </div>
+                    <div>
+                        <label for="support_address_bn" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Office Address (Bangla)</label>
+                        <textarea name="support_address_bn" id="support_address_bn" rows="3"
+                            class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium resize-none">{{ old('support_address_bn', $settings['support_address_bn'] ?? '') }}</textarea>
+                    </div>
                 </div>
             </div>
 
@@ -132,17 +153,31 @@
                 </h3>
 
                 <!-- Copyright Text -->
-                <div>
-                    <label for="copyright_text" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Copyright Footer Text</label>
-                    <input type="text" name="copyright_text" id="copyright_text" value="{{ old('copyright_text', $settings['copyright_text']) }}"
-                        class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="copyright_text" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Copyright Footer Text</label>
+                        <input type="text" name="copyright_text" id="copyright_text" value="{{ old('copyright_text', $settings['copyright_text']) }}"
+                            class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium">
+                    </div>
+                    <div>
+                        <label for="copyright_text_bn" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Copyright Footer Text (Bangla)</label>
+                        <input type="text" name="copyright_text_bn" id="copyright_text_bn" value="{{ old('copyright_text_bn', $settings['copyright_text_bn'] ?? '') }}"
+                            class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium">
+                    </div>
                 </div>
 
                 <!-- Meta Description -->
-                <div class="mt-6">
-                    <label for="meta_description" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">SEO Meta Description</label>
-                    <textarea name="meta_description" id="meta_description" rows="3"
-                        class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium resize-none">{{ old('meta_description', $settings['meta_description']) }}</textarea>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="meta_description" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">SEO Meta Description</label>
+                        <textarea name="meta_description" id="meta_description" rows="3"
+                            class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium resize-none">{{ old('meta_description', $settings['meta_description']) }}</textarea>
+                    </div>
+                    <div>
+                        <label for="meta_description_bn" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">SEO Meta Description (Bangla)</label>
+                        <textarea name="meta_description_bn" id="meta_description_bn" rows="3"
+                            class="block w-full rounded-xl border border-indigo-950/60 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all font-medium resize-none">{{ old('meta_description_bn', $settings['meta_description_bn'] ?? '') }}</textarea>
+                    </div>
                 </div>
             </div>
 
