@@ -95,14 +95,42 @@ class OrderController extends Controller
             'payment_method' => 'required|string|in:stripe,cod',
             'coupon_code' => 'nullable|string',
             'notes' => 'nullable|string',
+            'guest_email' => 'nullable|email|required_without:user_id',
+            'guest_phone' => 'nullable|string',
+            'items' => 'nullable|array',
+            'items.*.product_id' => 'required_with:items|exists:products,id',
+            'items.*.variant_id' => 'nullable|exists:product_variants,id',
+            'items.*.quantity' => 'required_with:items|integer|min:1',
         ]);
 
-        $user = $request->user();
+        $user = auth('sanctum')->user();
 
         // 1. Fetch current cart items
-        $cartItems = CartItem::with(['product', 'variant'])
-            ->where('user_id', $user->id)
-            ->get();
+        $cartItems = collect();
+        if ($user) {
+            $cartItems = CartItem::with(['product', 'variant'])
+                ->where('user_id', $user->id)
+                ->get();
+        } else {
+            if (!$request->items || count($request->items) === 0) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Your shopping cart is empty.'
+                ], 420);
+            }
+
+            foreach ($request->items as $reqItem) {
+                $product = Product::find($reqItem['product_id']);
+                $variant = isset($reqItem['variant_id']) ? ProductVariant::find($reqItem['variant_id']) : null;
+                $cartItems->push((object)[
+                    'product_id' => $product->id,
+                    'variant_id' => $variant ? $variant->id : null,
+                    'quantity' => $reqItem['quantity'],
+                    'product' => $product,
+                    'variant' => $variant
+                ]);
+            }
+        }
 
         if ($cartItems->isEmpty()) {
             return response()->json([
@@ -168,7 +196,9 @@ class OrderController extends Controller
         $order = DB::transaction(function () use ($user, $orderNumber, $subtotal, $tax, $shippingFee, $discount, $total, $request, $cartItems, $coupon) {
             $order = Order::create([
                 'order_number' => $orderNumber,
-                'user_id' => $user->id,
+                'user_id' => $user ? $user->id : null,
+                'guest_email' => $user ? null : $request->guest_email,
+                'guest_phone' => $user ? null : $request->guest_phone,
                 'subtotal' => $subtotal,
                 'tax' => $tax,
                 'shipping_fee' => $shippingFee,
@@ -213,7 +243,9 @@ class OrderController extends Controller
 
             // If COD, empty the cart
             if ($request->payment_method === 'cod') {
-                CartItem::where('user_id', $user->id)->delete();
+                if ($user) {
+                    CartItem::where('user_id', $user->id)->delete();
+                }
                 $order->update([
                     'order_status' => 'processing',
                 ]);
@@ -223,12 +255,14 @@ class OrderController extends Controller
         });
 
         // Create a dynamic notification for order placement
-        \App\Models\Notification::create([
-            'user_id' => $user->id,
-            'title' => '🛍️ Order Placed successfully',
-            'message' => 'Thank you for shopping with NEX! Your order #' . $order->order_number . ' for $' . number_format($order->total, 2) . ' has been registered successfully and is now in processing state.',
-            'is_read' => false,
-        ]);
+        if ($user) {
+            \App\Models\Notification::create([
+                'user_id' => $user->id,
+                'title' => '🛍️ Order Placed successfully',
+                'message' => 'Thank you for shopping with NEX! Your order #' . $order->order_number . ' for $' . number_format($order->total, 2) . ' has been registered successfully and is now in processing state.',
+                'is_read' => false,
+            ]);
+        }
 
         // 5. Initiate Payment Intent response
         if ($request->payment_method === 'stripe') {
@@ -246,7 +280,8 @@ class OrderController extends Controller
                         'metadata' => [
                             'order_id' => $order->id,
                             'order_number' => $order->order_number,
-                            'user_id' => $user->id
+                            'user_id' => $user ? $user->id : 'guest',
+                            'guest_email' => $request->guest_email ?? ''
                         ]
                     ]);
                     
@@ -304,5 +339,65 @@ class OrderController extends Controller
                 'total_amount' => $total,
             ]
         ], 201);
+    }
+
+    /**
+     * Public endpoint to track order by Order Number and Email (Guest Friendly)
+     */
+    public function track(Request $request): JsonResponse
+    {
+        $request->validate([
+            'order_number' => 'required|string',
+            'email' => 'required|email'
+        ]);
+
+        $order = Order::with(['items.product', 'items.variant'])
+            ->where('order_number', $request->order_number)
+            ->where(function($query) use ($request) {
+                // Matches either the guest email or the authenticated user's email tied to the order
+                $query->where('guest_email', $request->email)
+                      ->orWhereHas('user', function($q) use ($request) {
+                          $q->where('email', $request->email);
+                      });
+            })
+            ->first();
+
+        if (!$order) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Order not found or email does not match.'
+            ], 404);
+        }
+
+        $formattedItems = $order->items->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'product_name' => $item->product->name ?? 'Deleted Product',
+                'variant_value' => $item->variant ? $item->variant->attribute_value : null,
+                'price' => (float) $item->price,
+                'quantity' => (int) $item->quantity,
+                'subtotal' => $item->price * $item->quantity,
+            ];
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'id' => $order->id,
+                'order_number' => $order->order_number,
+                'subtotal' => (float) $order->subtotal,
+                'tax' => (float) $order->tax,
+                'shipping_fee' => (float) $order->shipping_fee,
+                'discount' => (float) $order->discount,
+                'total' => (float) $order->total,
+                'payment_method' => $order->payment_method,
+                'payment_status' => $order->payment_status,
+                'order_status' => $order->order_status,
+                'shipping_address' => $order->shipping_address,
+                'notes' => $order->notes,
+                'created_at' => $order->created_at->format('Y-m-d H:i'),
+                'items' => $formattedItems,
+            ]
+        ]);
     }
 }

@@ -36,6 +36,10 @@ Route::post('/payment/stripe-webhook', [StripeWebhookController::class, 'handleW
 // Coupon Validation for Guest & Authenticated Bags
 Route::post('/coupons/validate', [CouponController::class, 'validateCoupon']);
 
+// Public Checkout & Mock Payment (Auth is optional for these routes)
+Route::post('/checkout', [OrderController::class, 'checkout']);
+Route::post('/payment/confirm-mock-payment', [StripeWebhookController::class, 'confirmMockPayment']);
+Route::post('/orders/track', [OrderController::class, 'track']);
 
 /*
 |--------------------------------------------------------------------------
@@ -61,14 +65,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/cart/{id}', [CartController::class, 'destroy']);
     Route::post('/cart/sync', [CartController::class, 'sync']);
 
-    // Order History & Process Checkout
+    // Order History
     Route::get('/orders', [OrderController::class, 'index']);
     Route::get('/orders/{id}', [OrderController::class, 'show']);
-    Route::post('/checkout', [OrderController::class, 'checkout']);
 
     // Review Submission
     Route::post('/reviews', [ReviewController::class, 'store']);
-
-    // Stripe Mock confirmation endpoint
-    Route::post('/payment/confirm-mock-payment', [StripeWebhookController::class, 'confirmMockPayment']);
 });
